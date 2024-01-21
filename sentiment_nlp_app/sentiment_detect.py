@@ -3,15 +3,13 @@ import nltk
 import streamlit as st 
 from nltk.classify import NaiveBayesClassifier
 from nltk.classify.util import accuracy
+nltk.download('punkt')
+from selenium.webdriver.chrome.options import Options
 from selenium import webdriver
 from bs4 import BeautifulSoup
 import time
- 
-async def download_punkt():
-    nltk.download('punkt')
-
-download_punkt()
-
+import tracemalloc
+tracemalloc.start()
 
 # Tokenize sentence/input
 def token_sentence(sent):
@@ -69,12 +67,16 @@ if input:
     
     
 # Tweet scraping functionality
+
+# Driver headless mode
+chrome_opts = Options()
+chrome_opts.add_argument('--headless')
 st.subheader('Tweet URL input')
 tweet_url = st.text_input('Paste tweet URL to extract tweet')
 
 def scrape_tweet_url(url):
         
-    driver = webdriver.Firefox() # Initialize web driver
+    driver = webdriver.Chrome(options=chrome_opts) # Initialize web driver
     driver.minimize_window()
     driver.get(url)
     time.sleep(5)
