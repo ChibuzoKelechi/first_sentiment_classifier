@@ -1,5 +1,6 @@
 # Import dependencies
 import nltk 
+nltk.download('punkt')
 import streamlit as st 
 from nltk.classify import NaiveBayesClassifier
 from nltk.classify.util import accuracy
@@ -107,7 +108,7 @@ scrape_and_classify(scrape_tweet_url) # Final function
 # Footer
 
 
-st.write('PS: Tis project is still in development; Updates will be made :) ')
+st.write('PS: This project is still in development; Updates will be made :) ')
 st.markdown("<hr style='border: 1px dashed #ddd; margin: 2rem;'>", unsafe_allow_html=True) #Horizontal line
 
 st.markdown("""
