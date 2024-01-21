@@ -64,14 +64,14 @@ if input:
     
 # Tweet scraping functionality
 st.subheader('Tweet URL input')
-tweet_url = st.text_input('Paste tweet URL')
+tweet_url = st.text_input('Paste tweet URL to extract tweet')
 
 def scrape_tweet_url(url):
         
     driver = webdriver.Firefox() # Initialize web driver
     driver.minimize_window()
     driver.get(url)
-    time.sleep(2)
+    time.sleep(5)
     
     resp = driver.page_source
     driver.close()
@@ -89,10 +89,10 @@ def scrape_tweet_url(url):
         
     return tweet_text
 
-def scrape_and_classify():
+def scrape_and_classify(scrape_function):
     try: # Exception handling
         if tweet_url:
-          tweet = scrape_tweet_url(tweet_url)
+          tweet = scrape_function(tweet_url)
           tweet_sentiment = classify_sentence(tweet)
           st.write(f'Tweet text: {tweet}')
           st.write(tweet_sentiment)
@@ -101,7 +101,7 @@ def scrape_and_classify():
         st.write('404 Not found. Error occured in retrieving tweet')
         # Fallback message(In case of error)
     
-scrape_and_classify() # Final function
+scrape_and_classify(scrape_tweet_url) # Final function
 
 
 # Footer
@@ -111,8 +111,10 @@ st.markdown("""
     <div style="text-align: center; padding: 1rem;">
         Project by <a href="https://github.com/ChibuzoKelechi" target="_blank" style="color: white; font-weight: bold; text-decoration: none;">
          kelechi_tensor</a>
-        
-        Data from <a href="https://kaggle.com" target="_blank" style="color: white; font-weight: bold; text-decoration: none;">
+    </div>
+    
+    <div style="text-align: center; padding: 1rem;">
+        Data from <a href="https://kaggle.com" target="_blank" style="color: lightblue; font-weight: bold; text-decoration: none;">
          Kaggle</a>
     </div>
 """,
