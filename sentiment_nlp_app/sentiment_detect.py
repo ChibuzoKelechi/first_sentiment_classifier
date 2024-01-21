@@ -1,12 +1,17 @@
 # Import dependencies
 import nltk 
-nltk.download('punkt')
 import streamlit as st 
 from nltk.classify import NaiveBayesClassifier
 from nltk.classify.util import accuracy
 from selenium import webdriver
 from bs4 import BeautifulSoup
-import time 
+import time
+ 
+async def download_punkt():
+    nltk.download('punkt')
+
+download_punkt()
+
 
 # Tokenize sentence/input
 def token_sentence(sent):
@@ -41,7 +46,7 @@ class_accuracy = accuracy(classifier, test_data)
 
 
 def classify_sentence(input):
-    m_accuracy = f'{int(class_accuracy * 100)}%'
+    m_accuracy = f'{int(class_accuracy*100)}%'
     sentiment_class = classifier.classify(token_sentence(input))
     return f"Connotation: {sentiment_class}. {m_accuracy} sure"
 
@@ -106,6 +111,13 @@ scrape_and_classify(scrape_tweet_url) # Final function
 
 
 # Footer
+
+st.write('')
+st.write('')
+st.write('')
+st.write('')
+st.write('')
+st.write('')
 
 
 st.write('PS: This project is still in development; Updates will be made :) ')
