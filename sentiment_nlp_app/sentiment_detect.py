@@ -1,5 +1,5 @@
 # Import dependencies
-import nltk 
+import nltk
 import streamlit as st 
 from nltk.classify import NaiveBayesClassifier
 from nltk.classify.util import accuracy
