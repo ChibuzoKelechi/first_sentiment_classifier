@@ -3,12 +3,15 @@ import nltk
 import streamlit as st 
 from nltk.classify import NaiveBayesClassifier
 from nltk.classify.util import accuracy
-nltk.download('punkt')
 from selenium.webdriver.chrome.options import Options
 from selenium import webdriver
 from bs4 import BeautifulSoup
 import time
 import tracemalloc
+import pickle
+
+
+nltk.download('punkt')
 tracemalloc.start()
 
 # Tokenize sentence/input
@@ -39,9 +42,14 @@ test_data = (
 )
 
 # Initialize model and classifier function
-classifier = NaiveBayesClassifier.train(train_data)
-class_accuracy = accuracy(classifier, test_data)
+classifier0 = NaiveBayesClassifier.train(train_data)
+class_accuracy = accuracy(classifier0, test_data)
 
+with open('sentiment_classify.pkl', 'wb') as file:
+    pickle.dump(classifier0, file)
+    
+with open('sentiment_classify.pkl', 'rb') as file:
+    classifier = pickle.load(file)
 
 def classify_sentence(input):
     m_accuracy = f'{int(class_accuracy*100)}%'
@@ -79,7 +87,7 @@ def scrape_tweet_url(url):
     driver = webdriver.Chrome(options=chrome_opts) # Initialize web driver
     driver.minimize_window()
     driver.get(url)
-    time.sleep(5)
+    time.sleep(2)
     
     resp = driver.page_source
     driver.close()
@@ -96,6 +104,8 @@ def scrape_tweet_url(url):
         st.write('404. Tweet Not Found')
         
     return tweet_text
+
+
 
 def scrape_and_classify(scrape_function):
     try: # Exception handling
@@ -114,7 +124,6 @@ scrape_and_classify(scrape_tweet_url) # Final function
 
 # Footer
 
-st.write('')
 st.write('')
 st.write('')
 st.write('')
